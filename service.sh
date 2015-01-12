@@ -17,23 +17,23 @@ LOGFILE=/var/log/$NAME.log
 
 start() {
   if [ -f $PIDFILE ] && kill -0 $(cat $PIDFILE); then
-    echo 'Service already running' >&2
+    echo 'Service $NAME already running' >&2
     return 1
   fi
-  echo 'Starting service…' >&2
+  echo 'Starting $NAME service...' >&2
   local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
   su -c "$CMD" $RUNAS > "$PIDFILE"
-  echo 'Service started' >&2
+  echo 'Service $NAME started' >&2
 }
 
 stop() {
   if [ ! -f "$PIDFILE" ] || ! kill -0 $(cat "$PIDFILE"); then
-    echo 'Service not running' >&2
+    echo 'Service $NAME not running' >&2
     return 1
   fi
-  echo 'Stopping service…' >&2
+  echo 'Stopping $NAME service...' >&2
   kill -15 $(cat "$PIDFILE") && rm -f "$PIDFILE"
-  echo 'Service stopped' >&2
+  echo 'Service $NAME stopped' >&2
 }
 
 uninstall() {
@@ -50,16 +50,16 @@ uninstall() {
 }
 
 status() {
-        printf "%-50s" "Checking $NAME..."
+    printf "%-50s" "Checking $NAME..."
     if [ -f $PIDFILE ]; then
         PID=$(cat $PIDFILE)
             if [ -z "$(ps axf | grep ${PID} | grep -v grep)" ]; then
                 printf "%s\n" "The process appears to be dead but pidfile still exists"
             else    
-                echo "Running, the PID is $PID"
+                echo "Running, the $NAME PID is $PID"
             fi
     else
-        printf "%s\n" "Service not running"
+        printf "%s\n" "Service $NAME not running"
     fi
 }
 
