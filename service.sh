@@ -16,13 +16,13 @@ PIDFILE=/var/run/$NAME.pid
 LOGFILE=/var/log/$NAME.log
 
 start() {
-  if [ -f $PIDFILE ] && kill -0 $(cat $PIDFILE); then
+  if [ -s $PIDFILE ] && kill -0 $(cat $PIDFILE); then
     echo 'Service already running' >&2
     return 1
   fi
   echo 'Starting service...' >&2
-  local CMD="$SCRIPT &> \"$LOGFILE\" & echo \$!"
-  su -c "$CMD" $RUNAS > "$PIDFILE"
+  local CMD="$SCRIPT > \"$LOGFILE\" 2>&1 & echo \$!"
+  sudo -u $RUNAS sh -c "$CMD" > "$PIDFILE"
   echo 'Service started' >&2
 }
 
