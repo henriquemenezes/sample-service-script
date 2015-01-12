@@ -3,7 +3,7 @@
 SERVICE_FILE=$(tempfile)
 
 echo "--- Download template ---"
-wget -q -O "$SERVICE_FILE" 'https://raw.githubusercontent.com/jasonblewis/sample-service-script/master/service.sh' || { echo 'ERROR: Could not retreive service.sh from github'; exit 1;}
+wget -q -O "$SERVICE_FILE" 'https://raw.githubusercontent.com/henriquemenezes/sample-service-script/master/service.sh' || { echo 'ERROR: Could not retreive service.sh from github'; exit 1;}
 
 chmod +x "$SERVICE_FILE"
 echo ""
